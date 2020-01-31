@@ -1,0 +1,151 @@
+maintaining internal data using class based component
+1.we can not modify state directly ,but by using setState which is the api method provided by react to update the state in react
+  Wrong
+  this.state.fname="pranshu"
+  Right
+  this.setState({fname:"pranshu"});
+2.setState is asynchrounous in nature,React may batch multiple setState() calls into a single update for performance
+  Because this.props and this.state may be updated asynchronously, you should not rely on their values for calculating the next state
+ //Wrong 
+ this.setState({counter:this.state.counter+this.props.increment});
+
+ //Right 
+ this.setState((state,props)=>({counter:state.counter+props.increment}))
+
+ the above method is best way to implement state update 
+ i.e you should take previous state as input and return next state depending upon your previou state
+3.State Updates are Merged->i.e suppose the state object has 5 properties and you are just updating only two values 
+ so only those value wil be changed and remaing three will not be changed
+ 
+4.As we know that setState is async and doesn’t act in the moment,so it make batch next state update after some time
+  so the question here is how do we overcome this.
+  Well ,setState is aynch but it provide a call back to make things happen one after the another
+
+  example
+  setState({[name]:value},() =>console.log("when state will be set i would be called"));
+
+5.state is an object in class based component ,so more than one variable or per say properties can be declared
+
+
+
+
+maintaining internal data using functional based component
+1.useState is named export provided by react to update the state variables ,but unlike state object ,
+The useState hook allows you to declare only one state variable (of any type) at a time, like this
+
+a.class based component
+import React from 'react';
+
+class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: '',
+      list: [],    
+    };
+  }
+  /* ... */
+}
+
+b.functional component
+import React, { useState } from 'react';
+
+const Message= () => {
+   const messageState = useState( '' );
+   const listState = useState( [] );
+}
+
+
+2.useState takes the initial value of the state variable as an argument. You can pass it directly like shown above
+  
+  if we want to initalize the state value after some calculation we can use it like this
+  const messageState=useState(()=>someCalculation());
+  
+ The initial value will be assigned only on the initial render (if it’s a function, it will be executed only on the initial render).
+ In subsequent renders (due to a change of state in the component or a parent component), the argument of the useState hook will be ignored and the current value will be retrieved.
+
+**this has to be keep in mind because if we want to update state variable depending upon props change
+ it would not work
+ //Wrong
+ const Message= (props) => {
+    const messageState = useState( props.message );
+    /* ... */
+ }
+ //right way is ,to use useEffect
+
+   const [messageState , setMessageState] = useState(props)
+
+   useEffect(() => {
+       setNasetMessageStatemeState(props);
+   }, [props])
+
+
+3.useState doesn’t return just a variable as the previous examples imply. It returns an array, where 
+  the first element is the state variable and the second element is a function to update the value of the variable
+  
+  example
+  
+   const messageState = useState( '' );
+   const message = messageState[0]; // Contains ''
+   const setMessage = messageState[1]; // It’s a function
+ 
+  after Array destructuring
+  const [message, setMessage]= useState( '' );
+  
+  but the question here arises is why useStae return an array? why not object
+  becoz  compare to object array is eazy to use
+  
+  suppose useState is returing an object than it would be destructured like things
+  const { state: message, setState: setMessage } = useState( '' );
+
+4.updating the state,
+  The second element returned by useState is a function that takes a new value to update the state variable.
+ 
+  example
+  const [message, setMessage]= useState( '' );
+
+  to update is value we need to pass the new value to the "setMessage"
+
+  setMessage("pranshu");
+
+  However, this update function doesn’t update the value right away. Rather, it enqueues the update operation.
+  Then, after re-rendering the component, the argument of useState will be ignored and this function will return the most recent value
+  
+  
+ 5.If you use the previous value to update state, you must pass a function that receives the previous value and returns the new value
+  setCounter(count=>count+1) 
+
+  However, there are two important things to know about updates.
+ 6.if you use the same value as the current state to update the state (React uses Object.is for comparing), React won’t trigger a re-render
+
+  //wrong this would not work
+      onChange={e => {
+          messageObj.message = e.target.value;
+          setMessage(messageObj); // Doesn't work
+        }}  
+  Instead of creating a new object, the above example mutates the existing state object 
+    
+  //this will work
+  onChange={e => {
+  const newMessageObj = { message: e.target.value };
+  setMessage(newMessageObj); // Now it works
+}}      
+
+7.This leads us to the second important thing you need to remember.
+  When you update a state variable, unlike this.setState in a component class, the function returned by
+  useState does not automatically merge update objects, it replaces them.
+
+  Following the previous example, if we add another property to the message object (id):
+  
+   //wrong
+  onChange={e => {
+          const newMessageObj = { message: e.target.value };
+          setMessage(newMessageObj); // id property is lost
+        }}
+   // right
+   onChange={e => {
+  const val = e.target.value;
+  setMessage(prevState => {
+    return { ...prevState, message: val }
+  });
+}}    

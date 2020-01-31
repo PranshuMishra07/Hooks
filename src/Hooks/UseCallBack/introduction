@@ -1,0 +1,2 @@
+    This hook is useful when you have a component with a child frequently re-rendering, and you pass a callback to it:
+    

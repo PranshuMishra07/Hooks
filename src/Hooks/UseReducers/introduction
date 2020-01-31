@@ -1,0 +1,10 @@
+1.useReducer is a hook that is used for state managements .It is an alternative to useState
+2.useReducer is more primitive for state managements
+3.useState is build using useReducer
+4.
+differece between 
+reduce                                   |                            useReducer
+1.array.reducer(reducer,initialValue)                      useReducer(reducer,initialState)
+2. singleValue =reducer(accumulator,intemValue              newState=reducer(currentState,action)
+3. reduce method returns a single value                     useReducers returns a pair of values [newState,dispatch]
+  

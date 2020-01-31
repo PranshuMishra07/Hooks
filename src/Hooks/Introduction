@@ -1,0 +1,62 @@
+what is react?
+ReactJS is an open-source JavaScript library which is used for building user interfaces specifically for single page applications
+currently most popoluar ,last two year downloads show it that it is almost 5 to 6 times more popular than it's competitor ,like angular and vue.js
+visit:https://www.tecla.io/blog/2019-stats-on-top-js-frameworks-react-angular-and-vue/
+Almost every big mnc are using react at present
+ex: Amazon apple Facebbok google Microsoft netflix uber snapchat
+or any big company you name it
+
+why react?
+
+three main reason
+1.performace
+  a.Virtual DOM in ReactJS makes user experience better and developer’s work faster
+  b.Fast Devlopment
+
+2.Easy to learn ,fast learning curves
+  a.Permission to reuse React components significantly saves time
+  b.One-direction data flow in ReactJS provides a stable code ,it is problem in other way round
+  c.It provides JSX -->JSX is an XML/HTML-like syntax used by React that extends ECMAScript so that XML/HTML-like text 
+    can co-exist with JavaScript/React code. ... Unlike the past, instead of putting JavaScript into HTML, JSX allows us to put HTML into JavaScript
+
+3.community support
+  a.As it is used by facebook,so lot of people are using react ,almost every imformation or issue faced by react developer aand their solution are floating in web
+  b.Well documented
+  c.great developer tools
+  d.Flux and redux data workflow techniques we can use
+
+4.Native approach->
+  a.React can  also be used to create mobile applications (React Native).  React is a diehard fan of reusability, meaning extensive code reusability is supported. So at the same time we can make IOS, Android and Web application
+  
+
+Why hooks?
+
+so after lot of advantages over its competitor ,i would like to ask what are the points where react still sucks?
+
+here is the list of three problems where react still sucks
+Problems->
+
+ 1 reusing logic
+   two main pattern we use for this are
+   a.higher order component
+   b.Render props
+   
+ it causes wrapper hell,you will end up finding the data no where
+
+  2.Giant components->like here we are using lot of lifecycle methods
+  and componentDidMount ..... so code becomes very large 
+  example
+
+
+ 3.Confusing classes->
+   class is very diffuct in javascript to get use to be with.  
+ if you ever lookde at compiled magnified file
+ 1.you will see all the methods name are still unmagnified
+ 2.it is hard to find how methods are going to arranged in  magnified files
+
+
+if we evaluate these three problems we will find out that these are not seperate problems but are symptoms of one single problem
+i.e "React does not provide a statuful primitive simpler than a class component" 
+
+
+
